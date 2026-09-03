@@ -234,6 +234,9 @@ section{ position:relative; padding: 120px 44px; }
 .form-submit{ width:100%; margin-top:6px; background: var(--ink); color: var(--yellow); padding:14px; border:none; border-radius:7px; font-weight:800; font-size:14.5px; letter-spacing:0.02em; cursor:pointer; transition: background 0.2s ease; }
 .form-submit:hover{ background:#1a1a1a; }
 .form-note{ margin-top:14px; font-family:'Work Sans',sans-serif; font-size:12px; color: var(--ink-dim); line-height:1.5; }
+.involve-form-title{ font-size:19px; margin-bottom:10px; color: var(--ink); }
+.involve-form-copy{ font-family:'Work Sans',sans-serif; font-size:14px; color: var(--ink-dim); line-height:1.6; margin-bottom:22px; }
+.vp-form-mount{ margin-top:30px; min-height:200px; }
 .form-success{ display:none; text-align:center; padding: 20px 0; }
 .form-success.show{ display:block; }
 .form-success .check{ font-size:34px; color: var(--flame-o); }
@@ -277,6 +280,8 @@ footer{ padding: 64px 44px 34px; background: var(--bg); border-top:1px solid var
   display:flex; justify-content:flex-end; opacity:0; pointer-events:none; transition:opacity 0.3s ease;
 }
 .volunteer-overlay.open{ opacity:1; pointer-events:auto; }
+/* Sits above the departments overlay it can be opened from */
+#volunteerFormOverlay{ z-index:920; }
 .volunteer-panel{ width:min(780px,94vw); height:100%; background: var(--bg-2); overflow-y:auto; padding:56px 40px 90px; transform:translateX(40px); transition:transform 0.35s ease; }
 .volunteer-overlay.open .volunteer-panel{ transform:none; }
 .vp-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:20px; }
@@ -351,7 +356,7 @@ footer{ padding: 64px 44px 34px; background: var(--bg); border-top:1px solid var
     <p class="hero-sub">A national campus movement calling students back to identity and purpose — students from all four regions, gathering as one at Redemption Camp this October.</p>
     <div class="hero-actions">
       <a href="#register" class="btn btn-primary js-open-register">Register to Attend</a>
-      <a href="#involved" class="btn btn-ghost">Partner With Us</a>
+      <a href="#involved" class="btn btn-ghost js-open-partner">Partner With Us</a>
     </div>
   </div>
   <div class="scroll-cue"><span>Scroll</span><div class="line"></div></div>
@@ -412,7 +417,7 @@ footer{ padding: 64px 44px 34px; background: var(--bg); border-top:1px solid var
     <div class="timeline reveal">
       <div class="tl-item"><div class="tl-time">Fri, Oct 23 — Night</div><div class="tl-title">Arrival &amp; Check-In</div><div class="tl-desc">Students arrive at Redemption Camp from all four regions and settle in for the weekend.</div></div>
       <div class="tl-item"><div class="tl-time">Sat, Oct 24</div><div class="tl-title">Main Day — Bootcamp</div><div class="tl-desc">A full day of bootcamp sessions — food and water provided throughout.</div></div>
-      <div class="tl-item"><div class="tl-time">Sat, Oct 24 — Night</div><div class="tl-title">All-Night Seminar &amp; Intercession</div><div class="tl-desc">An all-night seminar, with dedicated intercession for the nation and for each student present.</div></div>
+      <div class="tl-item"><div class="tl-time">Sat, Oct 24 — Night</div><div class="tl-title">All-Night Bootcamp</div><div class="tl-desc">An all-night bootcamp session, running through to first light.</div></div>
       <div class="tl-item"><div class="tl-time">Sun, Oct 25 — Morning</div><div class="tl-title">Departure</div><div class="tl-desc">Buses return every attendee safely to their universities.</div></div>
     </div>
   </div>
@@ -518,26 +523,9 @@ footer{ padding: 64px 44px 34px; background: var(--bg); border-top:1px solid var
         <p>Whether you can offer a venue, a fleet, a following, or funding — every region moves forward because someone said yes first. Tell us how you'd like to partner.</p>
       </div>
       <div class="involve-form reveal">
-        <form id="partnerForm">
-          <div class="form-row"><label for="pname">Full name</label><input id="pname" type="text" required placeholder="Your name"></div>
-          <div class="form-row"><label for="porg">Organisation (optional)</label><input id="porg" type="text" placeholder="Church, company or campus fellowship"></div>
-          <div class="form-row"><label for="pemail">Email</label><input id="pemail" type="email" required placeholder="you@email.com"></div>
-          <div class="form-row"><label for="parea">How would you like to partner?</label>
-            <select id="parea">
-              <option>Venue</option>
-              <option>Transportation</option>
-              <option>Mobilisation</option>
-              <option>Finance</option>
-              <option>Something else</option>
-            </select>
-          </div>
-          <button type="submit" class="form-submit">Send Partnership Interest</button>
-          <div class="form-note"></div>
-        </form>
-        <div class="form-success" id="formSuccess">
-          <div class="check">✓</div>
-          <p>Thank you — your interest has been noted. Our team will follow up shortly.</p>
-        </div>
+        <h3 class="involve-form-title">Register your interest</h3>
+        <p class="involve-form-copy">A two-minute form covering how you'd like to partner — venue, transport, mobilisation or finance. Our team follows up personally.</p>
+        <button type="button" class="form-submit js-open-partner">Partner With Us →</button>
       </div>
     </div>
   </div>
@@ -560,7 +548,7 @@ footer{ padding: 64px 44px 34px; background: var(--bg); border-top:1px solid var
       <div class="footer-col">
         <h4>Get Involved</h4>
         <a href="#register" class="js-open-register">Register to Attend</a>
-        <a href="#involved">Partner With Us</a>
+        <a href="#involved" class="js-open-partner">Partner With Us</a>
         <a class="js-open-volunteer">Volunteer With Us</a>
       </div>
       <div class="footer-col">
@@ -588,7 +576,39 @@ footer{ padding: 64px 44px 34px; background: var(--bg); border-top:1px solid var
       </div>
       <button class="vp-close" id="registerClose" aria-label="Close">✕</button>
     </div>
-    <div id="tallyFormMount" style="margin-top:30px;"></div>
+    <div id="tallyFormMount" class="vp-form-mount" data-tally-id="XxAozj" data-tally-title="Register for YACT"></div>
+  </div>
+</div>
+
+<!-- ============ PARTNERSHIP OVERLAY (Tally embed) ============ -->
+<div class="volunteer-overlay" id="partnerOverlay" role="dialog" aria-modal="true" aria-labelledby="partnerTitle" aria-hidden="true">
+  <div class="volunteer-panel">
+    <div class="vp-head">
+      <div>
+        <span class="eyebrow">Get Involved</span>
+        <h2 id="partnerTitle">Tell us how you'd like to partner.</h2>
+        <p>Venue, transport, mobilisation or funding — share your details and our team will follow up shortly.</p>
+        <a href="https://tally.so/r/REPLACE-WITH-PARTNERSHIP-FORM" target="_blank" rel="noopener" class="vp-fallback-link">Trouble viewing the form? Open it in a new tab ↗</a>
+      </div>
+      <button class="vp-close" id="partnerClose" aria-label="Close">✕</button>
+    </div>
+    <div id="partnerFormMount" class="vp-form-mount" data-tally-id="REPLACE-WITH-PARTNERSHIP-FORM" data-tally-title="YACT Partnership Interest"></div>
+  </div>
+</div>
+
+<!-- ============ VOLUNTEER SIGN-UP OVERLAY (Tally embed) ============ -->
+<div class="volunteer-overlay" id="volunteerFormOverlay" role="dialog" aria-modal="true" aria-labelledby="volunteerFormTitle" aria-hidden="true">
+  <div class="volunteer-panel">
+    <div class="vp-head">
+      <div>
+        <span class="eyebrow">Volunteer With Us</span>
+        <h2 id="volunteerFormTitle">Put your hands on deck.</h2>
+        <p>Tell us which department fits you and how you'd like to serve at the Western Region gathering.</p>
+        <a href="https://tally.so/r/REPLACE-WITH-VOLUNTEER-FORM" target="_blank" rel="noopener" class="vp-fallback-link">Trouble viewing the form? Open it in a new tab ↗</a>
+      </div>
+      <button class="vp-close" id="volunteerFormClose" aria-label="Close">✕</button>
+    </div>
+    <div id="volunteerFormMount" class="vp-form-mount" data-tally-id="REPLACE-WITH-VOLUNTEER-FORM" data-tally-title="YACT Volunteer Sign-up"></div>
   </div>
 </div>
 
@@ -657,7 +677,7 @@ footer{ padding: 64px 44px 34px; background: var(--bg); border-top:1px solid var
 
     <div class="vp-cta">
       <p>Every department runs on volunteers — from intercessors to drivers to designers. If any of this looks like you, we'd love your hands on deck for the Western Region gathering.</p>
-      <a href="https://forms.gle/REPLACE-WITH-YOUR-VOLUNTEER-FORM" target="_blank" rel="noopener" class="btn btn-primary">Sign Up to Volunteer →</a>
+      <button type="button" class="btn btn-primary js-open-vsignup">Sign Up to Volunteer →</button>
     </div>
   </div>
 </div>
@@ -667,6 +687,7 @@ footer{ padding: 64px 44px 34px; background: var(--bg); border-top:1px solid var
 const sunDot = document.getElementById('sun-dot');
 const arcSvg = document.querySelector('#sun-arc svg');
 function updateArc(){
+  if(!sunDot || !arcSvg) return;
   const h = document.documentElement;
   const scrollRange = h.scrollHeight - h.clientHeight;
   const scrolled = scrollRange > 0 ? h.scrollTop / scrollRange : 0;
@@ -716,6 +737,8 @@ statEls.forEach(el=>statIo.observe(el));
 
 /* ===================== THREE.JS — HERO PARTICLE FIELD ===================== */
 (function(){
+ try {
+  if(typeof THREE === 'undefined') return;
   const canvas = document.getElementById('hero-canvas');
   const renderer = new THREE.WebGLRenderer({ canvas, alpha:true, antialias:true });
   const scene = new THREE.Scene();
@@ -779,6 +802,10 @@ statEls.forEach(el=>statIo.observe(el));
     requestAnimationFrame(animate);
   }
   requestAnimationFrame(animate);
+ } catch(err){
+  console.warn('Hero background disabled:', err);
+  var c = document.getElementById('hero-canvas'); if(c) c.style.display = 'none';
+ }
 })();
 
 /* ===================== THREE.JS — REGION MINI CARDS ===================== */
@@ -850,6 +877,8 @@ document.querySelectorAll('.region-card').forEach(card=>{
 
 /* ===================== THREE.JS — INTERACTIVE NIGERIA MAP (real 3D model) ===================== */
 (function(){
+ try {
+  if(typeof THREE === 'undefined') return;
   const canvas = document.getElementById('nigeria-map');
   const wrap = canvas.parentElement;
 
@@ -1056,6 +1085,10 @@ document.querySelectorAll('.region-card').forEach(card=>{
   }
   size();
   requestAnimationFrame(animate);
+ } catch(err){
+  console.warn('Nigeria map disabled:', err);
+  var mc = document.getElementById('nigeria-map'); if(mc) mc.style.display = 'none';
+ }
 })();
 
 /* ===================== VOLUNTEER OVERLAY ===================== */
@@ -1077,38 +1110,53 @@ document.querySelectorAll('.js-open-volunteer').forEach(el=>{
 document.getElementById('volunteerClose').addEventListener('click', closeVolunteer);
 volunteerOverlay.addEventListener('click', e=>{ if(e.target === volunteerOverlay) closeVolunteer(); });
 
-/* ===================== REGISTER OVERLAY (Tally embed) ===================== */
-const tallyMount = document.getElementById('tallyFormMount');
-let tallyMounted = false;
-
-function ensureTallyForm(){
-  if(tallyMounted) return;
-  tallyMounted = true;
-  tallyMount.innerHTML = '<iframe data-tally-src="https://tally.so/embed/XxAozj?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1&formEventsForwarding=1" loading="lazy" width="100%" height="2556" frameborder="0" marginheight="0" marginwidth="0" title="Youth and Campus Tour (YACT)"></iframe>';
+/* ===================== TALLY EMBED OVERLAYS ===================== */
+// Loads Tally's embed script (already in <head>) and hydrates any pending iframes.
+function loadTallyEmbeds(){
   var d = document, w = "https://tally.so/widgets/embed.js";
   var v = function(){
     if(typeof Tally !== "undefined"){ Tally.loadEmbeds(); }
-    else {
-      d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach(function(e){ e.src = e.dataset.tallySrc; });
-    }
+    else { d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach(function(e){ e.src = e.dataset.tallySrc; }); }
   };
   if(typeof Tally !== "undefined"){ v(); }
   else if(d.querySelector('script[src="'+w+'"]') == null){
     var s = d.createElement("script");
     s.src = w; s.onload = v; s.onerror = v;
     d.body.appendChild(s);
-  } else {
-    v();
-  }
+  } else { v(); }
 }
 
-function openRegister(){ ensureTallyForm(); setOverlayState(registerOverlay, true); }
-function closeRegister(){ setOverlayState(registerOverlay, false); }
-document.querySelectorAll('.js-open-register').forEach(el=>{
-  el.addEventListener('click', e=>{ e.preventDefault(); openRegister(); });
+// Builds the Tally iframe inside a mount element on first open (lazy).
+function mountTallyForm(mount){
+  if(!mount || mount.dataset.mounted) return;
+  mount.dataset.mounted = '1';
+  var src = 'https://tally.so/embed/' + mount.dataset.tallyId +
+    '?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1&formEventsForwarding=1';
+  mount.innerHTML = '<iframe data-tally-src="' + src + '" loading="lazy" width="100%" height="1200" ' +
+    'frameborder="0" marginheight="0" marginwidth="0" title="' + (mount.dataset.tallyTitle || 'YACT form') + '"></iframe>';
+  loadTallyEmbeds();
+}
+
+function closeOpenOverlays(){
+  document.querySelectorAll('.volunteer-overlay.open').forEach(o=> setOverlayState(o, false));
+}
+
+// [ trigger selector, overlay id ]
+[
+  ['.js-open-register', 'registerOverlay'],
+  ['.js-open-partner', 'partnerOverlay'],
+  ['.js-open-vsignup', 'volunteerFormOverlay']
+].forEach(pair=>{
+  const overlay = document.getElementById(pair[1]);
+  if(!overlay) return;
+  const mount = overlay.querySelector('[data-tally-id]');
+  const closeBtn = overlay.querySelector('.vp-close');
+  document.querySelectorAll(pair[0]).forEach(el=>{
+    el.addEventListener('click', e=>{ e.preventDefault(); mountTallyForm(mount); setOverlayState(overlay, true); });
+  });
+  if(closeBtn) closeBtn.addEventListener('click', ()=> setOverlayState(overlay, false));
+  overlay.addEventListener('click', e=>{ if(e.target === overlay) setOverlayState(overlay, false); });
 });
-document.getElementById('registerClose').addEventListener('click', closeRegister);
-registerOverlay.addEventListener('click', e=>{ if(e.target === registerOverlay) closeRegister(); });
 
 // Auto-close a short while after a successful submission, so people can see
 // Tally's own confirmation screen first without needing to close it manually.
@@ -1119,24 +1167,18 @@ window.addEventListener('message', e=>{
     try{ payload = JSON.parse(payload); } catch(err){ return; }
   }
   if(payload && payload.event === 'Tally.FormSubmitted'){
-    setTimeout(closeRegister, 4000);
+    setTimeout(closeOpenOverlays, 4000);
   }
 });
 
 document.addEventListener('keydown', e=>{
-  if(e.key === 'Escape'){ closeVolunteer(); closeRegister(); }
-});
-
-/* ===================== FORM (client-side preview only) ===================== */
-document.getElementById('partnerForm').addEventListener('submit', function(e){
-  e.preventDefault();
-  this.style.display = 'none';
-  document.getElementById('formSuccess').classList.add('show');
+  if(e.key === 'Escape'){ closeVolunteer(); closeOpenOverlays(); }
 });
 
 /* ===================== MOBILE NAVIGATION ===================== */
 const navToggle = document.querySelector('.nav-toggle');
 const navLinks = document.querySelector('.nav-links');
+if(navToggle && navLinks){
 navToggle.addEventListener('click', ()=>{
   const isOpen = navLinks.classList.toggle('is-open');
   navToggle.setAttribute('aria-expanded', String(isOpen));
@@ -1149,6 +1191,7 @@ navLinks.addEventListener('click', e=>{
     navToggle.setAttribute('aria-label', 'Open navigation menu');
   }
 });
+}
 </script>
 </body>
 </html>

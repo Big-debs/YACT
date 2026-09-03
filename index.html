@@ -4,6 +4,42 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>YACT — Youth &amp; Campus Tour</title>
+
+<!-- ============================================================
+     LINK PREVIEW / SOCIAL CARDS
+     One thing to finish: replace every "https://REPLACE-WITH-YOUR-DOMAIN"
+     below with the site's real URL (no trailing slash), e.g.
+     https://yact.ng  — the og:image / twitter:image MUST be absolute
+     or Slack, WhatsApp, iMessage, Facebook and X will not show it.
+     ============================================================ -->
+<meta name="description" content="A national movement calling Nigeria's students back to identity and purpose — four regions gathering as one at Redemption Camp, 23–25 October 2026.">
+<link rel="canonical" href="https://REPLACE-WITH-YOUR-DOMAIN/">
+<meta name="theme-color" content="#031100">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Youth &amp; Campus Tour (YACT)">
+<meta property="og:url" content="https://REPLACE-WITH-YOUR-DOMAIN/">
+<meta property="og:title" content="Nigeria has a purpose. So do you.">
+<meta property="og:description" content="A national youth and campus movement calling students back to identity and purpose — four regions, one flagship gathering at Redemption Camp, 23–25 October 2026.">
+<meta property="og:image" content="https://REPLACE-WITH-YOUR-DOMAIN/assets/og-image.png">
+<meta property="og:image:secure_url" content="https://REPLACE-WITH-YOUR-DOMAIN/assets/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Youth &amp; Campus Tour — Nigeria has a purpose. So do you. Redemption Camp, 23–25 October 2026.">
+<meta property="og:locale" content="en_NG">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Nigeria has a purpose. So do you.">
+<meta name="twitter:description" content="A national youth and campus movement calling students back to identity and purpose — four regions, one flagship gathering at Redemption Camp, 23–25 October 2026.">
+<meta name="twitter:image" content="https://REPLACE-WITH-YOUR-DOMAIN/assets/og-image.png">
+<meta name="twitter:image:alt" content="Youth &amp; Campus Tour — Nigeria has a purpose. So do you.">
+
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/icon-16.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
 <script src="https://tally.so/widgets/embed.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -89,7 +125,7 @@ nav{
 
 /* ============ HERO ============ */
 .hero{
-  position:relative; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  position:relative; min-height:100vh; min-height:100svh; display:flex; flex-direction:column; align-items:center; justify-content:center;
   text-align:center; overflow:hidden;
   background: radial-gradient(ellipse 120% 70% at 50% 108%, rgba(201,212,15,0.18) 0%, rgba(10,31,12,0) 55%), var(--bg);
 }
@@ -177,7 +213,7 @@ section{ position:relative; padding: 120px 44px; }
 
 /* ============ NIGERIA MAP ============ */
 .nigeria-map-wrap{ position:relative; height:460px; border-radius:16px; overflow:hidden; background: radial-gradient(ellipse at 50% 25%, rgba(201,212,15,0.1), transparent 60%), var(--bg-2); border:1px solid var(--line); margin-bottom:44px; }
-#nigeria-map{ width:100%; height:100%; display:block; cursor:grab; touch-action:none; }
+#nigeria-map{ width:100%; height:100%; display:block; cursor:grab; touch-action:pan-y; }
 #nigeria-map.dragging{ cursor:grabbing; }
 .map-source{ position:absolute; right:14px; bottom:12px; z-index:2; color:rgba(255,255,255,0.44); font-size:10px; letter-spacing:0.02em; }
 .map-legend{ position:absolute; top:20px; left:22px; display:flex; gap:9px; flex-wrap:wrap; z-index:2; }
@@ -259,7 +295,10 @@ footer{ padding: 64px 44px 34px; background: var(--bg); border-top:1px solid var
 
 @media (max-width: 700px){
   .footer-top{ flex-direction:column; gap:26px; }
+  .footer-cols{ gap:36px; }
   .involve-wrap{ flex-direction:column; }
+  .involve-form{ min-width:0; width:100%; max-width:none; padding:26px 22px; }
+  .volunteer-tab{ display:none; }
 }
 
 /* ============ VOLUNTEER TAB + OVERLAY ============ */
@@ -306,6 +345,15 @@ footer{ padding: 64px 44px 34px; background: var(--bg); border-top:1px solid var
 .dept-back{ background: var(--lime); transform: rotateY(180deg); }
 .dept-back p{ font-family:'Work Sans',sans-serif; font-weight:600; font-size:12px; line-height:1.5; color: var(--ink); }
 @media (max-width: 640px){ .dept-grid{ grid-template-columns:repeat(2,1fr); } .dept-card{ height:170px; } }
+/* Touch devices can't hover to flip the cards, so show both faces stacked. */
+@media (hover: none){
+  .dept-card{ height:auto; perspective:none; }
+  .dept-inner{ transform:none !important; transform-style:flat; }
+  .dept-face{ position:relative; inset:auto; backface-visibility:visible; transform:none !important; }
+  .dept-front{ border-radius:10px 10px 0 0; }
+  .dept-back{ border-radius:0 0 10px 10px; }
+  .dept-front .t{ font-size:16px; }
+}
 
 .gov-list{ list-style:none; }
 .gov-list li{ display:flex; gap:16px; padding:18px 0; border-bottom:1px solid var(--line); }
@@ -315,6 +363,14 @@ footer{ padding: 64px 44px 34px; background: var(--bg); border-top:1px solid var
 
 .vp-cta{ margin-top:40px; padding-top:34px; border-top:1px solid var(--line); }
 .vp-cta p{ font-family:'Work Sans',sans-serif; font-size:14px; color: rgba(255,255,255,0.6); margin-bottom:18px; max-width:480px; line-height:1.6; }
+
+@media (max-width: 600px){
+  .volunteer-panel{ width:100vw; padding:44px 20px 72px; transform:translateX(0) translateY(24px); }
+  .volunteer-overlay.open .volunteer-panel{ transform:none; }
+  .vp-head{ gap:12px; }
+  .vp-head h2{ font-size:24px; }
+  .dept-grid{ grid-template-columns:1fr; }
+}
 </style>
 </head>
 <body>
@@ -441,7 +497,7 @@ footer{ padding: 64px 44px 34px; background: var(--bg); border-top:1px solid var
     <div class="section-head reveal">
       <span class="eyebrow">04 — Strategy &amp; Scope</span>
       <h2>Four regions. One camp.</h2>
-      <p>Students from all four geographic regions of Nigeria are converging on one flagship gathering at Redemption Camp this October. Drag the map to rotate it.</p>
+      <p>Students from all four geographic regions of Nigeria are converging on one flagship gathering at Redemption Camp this October.</p>
     </div>
 
     <div class="nigeria-map-wrap reveal">
@@ -735,10 +791,27 @@ const statIo = new IntersectionObserver((entries)=>{
 }, { threshold:0.4 });
 statEls.forEach(el=>statIo.observe(el));
 
+/* ===================== 3D CAPABILITY GATE =====================
+   Mobile browsers reload tabs that use too much GPU / memory, and two
+   always-on WebGL render loops are exactly that profile. Only run the 3D
+   backgrounds on capable pointer-fine desktops; everywhere else the page
+   falls back to its static gradients (no visual break, no reload). */
+const ALLOW_3D = (function(){
+  try{
+    if(typeof THREE === 'undefined') return false;
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
+    if(window.matchMedia('(max-width: 1024px)').matches) return false;
+    if(window.matchMedia('(pointer: coarse)').matches) return false;
+    if(typeof navigator.deviceMemory === 'number' && navigator.deviceMemory < 4) return false;
+    const test = document.createElement('canvas');
+    return !!(test.getContext('webgl') || test.getContext('experimental-webgl'));
+  }catch(e){ return false; }
+})();
+
 /* ===================== THREE.JS — HERO PARTICLE FIELD ===================== */
 (function(){
  try {
-  if(typeof THREE === 'undefined') return;
+  if(!ALLOW_3D){ const el = document.getElementById('hero-canvas'); if(el) el.style.display = 'none'; return; }
   const canvas = document.getElementById('hero-canvas');
   const renderer = new THREE.WebGLRenderer({ canvas, alpha:true, antialias:true });
   const scene = new THREE.Scene();
@@ -792,7 +865,10 @@ statEls.forEach(el=>statIo.observe(el));
     mouseY = (e.clientY/window.innerHeight - 0.5);
   });
 
+  let inView = true, looping = false;
+  function startLoop(){ if(!looping){ looping = true; requestAnimationFrame(animate); } }
   function animate(t){
+    if(!inView || document.hidden){ looping = false; return; }
     points.rotation.y = t*0.00006 + mouseX*0.4;
     points.rotation.x = mouseY*0.2;
     core.rotation.y = -t*0.0001;
@@ -801,7 +877,9 @@ statEls.forEach(el=>statIo.observe(el));
     renderer.render(scene, camera);
     requestAnimationFrame(animate);
   }
-  requestAnimationFrame(animate);
+  new IntersectionObserver(es=>{ inView = es[0].isIntersecting; if(inView) startLoop(); }, { threshold:0 }).observe(canvas);
+  document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) startLoop(); });
+  startLoop();
  } catch(err){
   console.warn('Hero background disabled:', err);
   var c = document.getElementById('hero-canvas'); if(c) c.style.display = 'none';
@@ -878,7 +956,7 @@ document.querySelectorAll('.region-card').forEach(card=>{
 /* ===================== THREE.JS — INTERACTIVE NIGERIA MAP (real 3D model) ===================== */
 (function(){
  try {
-  if(typeof THREE === 'undefined') return;
+  if(!ALLOW_3D){ const w = document.querySelector('.nigeria-map-wrap'); if(w) w.style.display = 'none'; return; }
   const canvas = document.getElementById('nigeria-map');
   const wrap = canvas.parentElement;
 
@@ -1073,7 +1151,10 @@ document.querySelectorAll('.region-card').forEach(card=>{
 
   new ResizeObserver(size).observe(wrap);
 
+  let inView = true, looping = false;
+  function startLoop(){ if(!looping){ looping = true; requestAnimationFrame(animate); } }
   function animate(time){
+    if(!inView || document.hidden){ looping = false; return; }
     group.rotation.set(rotX, rotY, 0);
     unityPolyhedron.rotation.y = time * 0.0004 + 0.2;
     unityPolyhedron.rotation.x = time * 0.00018 + 0.35;
@@ -1083,11 +1164,13 @@ document.querySelectorAll('.region-card').forEach(card=>{
     renderer.render(scene, camera);
     requestAnimationFrame(animate);
   }
+  new IntersectionObserver(es=>{ inView = es[0].isIntersecting; if(inView) startLoop(); }, { threshold:0 }).observe(canvas);
+  document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) startLoop(); });
   size();
-  requestAnimationFrame(animate);
+  startLoop();
  } catch(err){
   console.warn('Nigeria map disabled:', err);
-  var mc = document.getElementById('nigeria-map'); if(mc) mc.style.display = 'none';
+  var w = document.querySelector('.nigeria-map-wrap'); if(w) w.style.display = 'none';
  }
 })();
 

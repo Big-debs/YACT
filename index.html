@@ -36,11 +36,12 @@
 <link rel="icon" type="image/png" sizes="16x16" href="assets/icon-16.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 
-<script src="https://tally.so/widgets/embed.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Work+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!-- Tally's embed.js and three.js are loaded on demand from the inline script
+     below (Tally only once a form overlay is opened; three.js only on capable
+     non-touch desktops) so mobile visitors never block on either download. -->
 <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
 <style>
 :root{
@@ -288,6 +289,9 @@ footer{ padding: 64px 44px 34px; background: var(--bg); border-top:1px solid var
 .footer-bottom .copy{ font-family:'Work Sans',sans-serif; font-size:12.5px; color: rgba(255,255,255,0.4); }
 .convener{ display:flex; align-items:center; gap:10px; font-family:'Work Sans',sans-serif; font-size:12.5px; color: rgba(255,255,255,0.72); }
 .convener b{ color:#fff; font-weight:800; letter-spacing:0.01em; }
+.convener a{ color:inherit; text-decoration:none; transition: color 0.2s ease; }
+.convener a:hover{ color: var(--yellow); }
+.convener a:hover b{ color: var(--yellow); }
 .convener .mark{ width:22px; height:22px; border-radius:5px; background: linear-gradient(135deg, var(--lime), var(--yellow)); display:inline-flex; align-items:center; justify-content:center; font-family:'Anton',sans-serif; font-size:12px; color: var(--ink); }
 
 @media (max-width: 700px){
@@ -613,7 +617,7 @@ footer{ padding: 64px 44px 34px; background: var(--bg); border-top:1px solid var
   </div>
   <div class="footer-bottom">
     <div class="copy">© 2026 Youth &amp; Campus Tour. All rights reserved.</div>
-    <div class="convener"><span class="mark">C</span>Convened by <b>Cushland Investments</b></div>
+    <div class="convener"><span class="mark">C</span>Convened by <a href="https://www.cushlandinvestments.com" target="_blank" rel="noopener"><b>Cushland Investments</b></a></div>
   </div>
 </footer>
 
@@ -791,11 +795,11 @@ statEls.forEach(el=>statIo.observe(el));
 /* ===================== 3D CAPABILITY GATE =====================
    Mobile browsers reload tabs that use too much GPU / memory, and two
    always-on WebGL render loops are exactly that profile. Only run the 3D
-   backgrounds on capable pointer-fine desktops; everywhere else the page
-   falls back to its static gradients (no visual break, no reload). */
-const ALLOW_3D = (function(){
+   backgrounds on capable pointer-fine desktops — and only DOWNLOAD three.js
+   (128KB+) for them in the first place. Everywhere else the page never
+   fetches the library and just keeps its static gradients. */
+const PREFERS_3D = (function(){
   try{
-    if(typeof THREE === 'undefined') return false;
     if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
     if(window.matchMedia('(max-width: 1024px)').matches) return false;
     if(window.matchMedia('(pointer: coarse)').matches) return false;
@@ -805,10 +809,14 @@ const ALLOW_3D = (function(){
   }catch(e){ return false; }
 })();
 
+function hide3D(){
+  const el = document.getElementById('hero-canvas'); if(el) el.style.display = 'none';
+  const w = document.querySelector('.nigeria-map-wrap'); if(w) w.style.display = 'none';
+}
+
 /* ===================== THREE.JS — HERO PARTICLE FIELD ===================== */
-(function(){
+function initHeroScene(){
  try {
-  if(!ALLOW_3D){ const el = document.getElementById('hero-canvas'); if(el) el.style.display = 'none'; return; }
   const canvas = document.getElementById('hero-canvas');
   const renderer = new THREE.WebGLRenderer({ canvas, alpha:true, antialias:true });
   const scene = new THREE.Scene();
@@ -881,7 +889,7 @@ const ALLOW_3D = (function(){
   console.warn('Hero background disabled:', err);
   var c = document.getElementById('hero-canvas'); if(c) c.style.display = 'none';
  }
-})();
+}
 
 /* ===================== THREE.JS — REGION MINI CARDS ===================== */
 /* The four card polyhedra are replaced by one shared object in the main map scene.
@@ -951,9 +959,8 @@ document.querySelectorAll('.region-card').forEach(card=>{
 */
 
 /* ===================== THREE.JS — INTERACTIVE NIGERIA MAP (real 3D model) ===================== */
-(function(){
+function initNigeriaMap(){
  try {
-  if(!ALLOW_3D){ const w = document.querySelector('.nigeria-map-wrap'); if(w) w.style.display = 'none'; return; }
   const canvas = document.getElementById('nigeria-map');
   const wrap = canvas.parentElement;
 
@@ -1169,7 +1176,22 @@ document.querySelectorAll('.region-card').forEach(card=>{
   console.warn('Nigeria map disabled:', err);
   var w = document.querySelector('.nigeria-map-wrap'); if(w) w.style.display = 'none';
  }
-})();
+}
+
+/* Only fetch three.js when we're actually going to use it. */
+if(PREFERS_3D){
+  const threeScript = document.createElement('script');
+  threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+  threeScript.onload = function(){
+    if(typeof THREE === 'undefined'){ hide3D(); return; }
+    initHeroScene();
+    initNigeriaMap();
+  };
+  threeScript.onerror = hide3D;
+  document.head.appendChild(threeScript);
+} else {
+  hide3D();
+}
 
 /* ===================== VOLUNTEER OVERLAY ===================== */
 const volunteerOverlay = document.getElementById('volunteerOverlay');
